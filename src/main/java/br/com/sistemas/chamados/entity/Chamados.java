@@ -1,47 +1,66 @@
 package br.com.sistemas.chamados.entity;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 /** ENTITY: representa a tabela do banco. Cada objeto = uma linha */
 @Entity 
 @Table(name="chamados")
 public class Chamados{
 
+    public enum Prioridade { BAIXA, MEDIA, ALTA, CRITICA }
+
+    public enum StatusChamado { ABERTO, EM_ATENDIMENTO, AGUARDANDO_CLIENTE, FECHADO }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true, length = 100)
+    @Column(nullable = false, length = 150)
     private String titulo;
 
-    @Column(nullable = false, length = 700)
+    @Column(nullable = false, length = 2000)
     private String descricao;
 
     @Column(nullable = false)
-    private Date data_abertura;
+    private LocalDateTime dataAbertura;
 
-    @Column(nullable = false)
-    private Date data_fechamento;
+    @Column
+    private LocalDateTime dataFechamento;
 
-    @Column(nullable = false, length = 50)
-    private String prioridade;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 20)
+    private Prioridade prioridade;
 
-    @Column(nullable = false, length = 100)
-    private String status;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 30)
+    private StatusChamado status;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "cliente_id", nullable = false)
+    private Cliente cliente;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "categoria_id", nullable = false)
+    private Categorias categoria;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "tecnico_id")
+    private Tecnicos tecnico;
 
     public Chamados (){}
 
-    public Chamados(String titulo, String descricao, Date data_abertura){
+    public Chamados(String titulo, String descricao, LocalDateTime dataAbertura, LocalDateTime dataFechamento, Prioridade prioridade, StatusChamado status, Cliente cliente, Categorias categoria, Tecnicos tecnico){
         this.titulo = titulo;
         this.descricao = descricao;
-        this.data_abertura = data_abertura;
+        this.dataAbertura = dataAbertura;
+        this.dataFechamento = dataFechamento;
+        this.prioridade = prioridade;
+        this.status = status;
+        this.cliente = cliente;
+        this.categoria = categoria;
+        this.tecnico = tecnico;
     }
     
     public Long getId() {
@@ -59,28 +78,46 @@ public class Chamados{
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
-    public Date getData_abertura() {
-        return data_abertura;
+    public LocalDateTime getDataAbertura() {
+        return dataAbertura;
     }
-    public void setData_abertura(Date data_abertura) {
-        this.data_abertura = data_abertura;
+    public void setDataAbertura(LocalDateTime dataAbertura) {
+        this.dataAbertura = dataAbertura;
     }
-    public Date getData_fechamento() {
-        return data_fechamento;
+    public LocalDateTime getDataFechamento() {
+        return dataFechamento;
     }
-    public void setData_fechamento(Date data_fechamento) {
-        this.data_fechamento = data_fechamento;
+    public void setDataFechamento(LocalDateTime dataFechamento) {
+        this.dataFechamento = dataFechamento;
     }
-    public String getPrioridade() {
+    public Prioridade getPrioridade() {
         return prioridade;
     }
-    public void setPrioridade(String prioridade) {
+    public void setPrioridade(Prioridade prioridade) {
         this.prioridade = prioridade;
     }
-    public String getStatus() {
+    public StatusChamado getStatus() {
         return status;
     }
-    public void setStatus(String status) {
+    public void setStatus(StatusChamado status) {
         this.status = status;
+    }
+    public Cliente getCliente() { 
+        return cliente; 
+    }
+    public void setCliente(Cliente cliente) { 
+        this.cliente = cliente; 
+    }
+    public Categorias getCategoria() { 
+        return categoria; 
+    }
+    public void setCategoria(Categorias categoria) { 
+        this.categoria = categoria; 
+    }
+    public Tecnicos getTecnico() { 
+        return tecnico; 
+    }
+    public void setTecnico(Tecnicos tecnico) { 
+        this.tecnico = tecnico; 
     }
 }

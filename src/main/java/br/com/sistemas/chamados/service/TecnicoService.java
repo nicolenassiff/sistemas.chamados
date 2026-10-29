@@ -10,20 +10,23 @@ import br.com.sistemas.chamados.dto.TecnicosResponse;
 import br.com.sistemas.chamados.entity.Tecnicos;
 import br.com.sistemas.chamados.exception.RecursoNaoEncontradoException;
 import br.com.sistemas.chamados.exception.RegraNegocioException;
+import br.com.sistemas.chamados.repository.ChamadosRepository;
 import br.com.sistemas.chamados.repository.TecnicoRepository;
 
 @Service
 public class TecnicoService {
     private final TecnicoRepository repository;
+    private final ChamadosRepository chamadosRepository;
 
-    public TecnicoService(TecnicoRepository repository) {
+    public TecnicoService(TecnicoRepository repository, ChamadosRepository chamadosRepository) {
         this.repository = repository;
+        this.chamadosRepository = chamadosRepository;
     }
 
     @Transactional 
     public TecnicosResponse criar(TecnicosRequest dto){
-        if (repository.existsByNome(dto.nome())) {
-            throw new RegraNegocioException("Já existe um técnico com este nome." + dto.nome());
+        if (repository.existsByEmail(dto.email())) {
+            throw new RegraNegocioException("Já existe um técnico com este email." + dto.email());
         }
         Tecnicos salvo = repository.<Tecnicos>save(new Tecnicos(dto.nome(), dto.email(), dto.perfil()));
         return TecnicosResponse.de(salvo);
@@ -42,8 +45,8 @@ public class TecnicoService {
     @Transactional
     public TecnicosResponse atualizar(Long id, TecnicosRequest dto) {
         Tecnicos tecnico = buscarEntity(id);
-        if (repository.existsByNomeAndIdNot(dto.nome(), id)) {
-            throw new RegraNegocioException("Já existe um técnico com o nome." + dto.nome());
+        if (repository.existsByEmailAndIdNot(dto.email(), id)) {
+            throw new RegraNegocioException("Já existe um técnico com este email." + dto.email());
         }
         tecnico.setNome(dto.nome());
         tecnico.setEmail(dto.email());
@@ -53,6 +56,10 @@ public class TecnicoService {
 
     @Transactional
     public void excluir(Long id){
+        Tecnicos tecnico = buscarEntity(id);
+        if (chamadosRepository.existsByTecnicoId(id)) {
+            throw new RegraNegocioException("Técnico possui chamados vinculados e não pode ser excluído");
+        }
         repository.delete(buscarEntity(id));
     }
 

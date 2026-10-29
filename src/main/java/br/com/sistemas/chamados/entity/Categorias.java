@@ -19,7 +19,7 @@ public class Categorias{
     @Column(nullable = false, unique = true, length = 100)
     private String nome;
 
-    @Column(nullable = false, unique = true, length = 700)
+    @Column(length = 255)
     private String descricao;
 
 
