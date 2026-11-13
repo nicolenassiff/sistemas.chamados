@@ -1,0 +1,70 @@
+:root {
+  --fundo: #f6f7f9; --papel: #fff; --texto: #1d2733; --suave: #5d6b7a;
+  --borda: #d9dee4; --azul: #1f5fbf; --vermelho: #b42318; --fundo-erro: #fdecea;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--fundo); color: var(--texto);
+  font: 16px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; }
+.topo { display: flex; gap: 2rem; align-items: center; padding: .9rem 1.5rem;
+  background: var(--papel); border-bottom: 1px solid var(--borda); flex-wrap: wrap; }
+.marca { font-size: 1.15rem; }
+.topo nav { display: flex; gap: 1.25rem; }
+.topo a { color: var(--suave); text-decoration: none; padding: .25rem 0; }
+.topo a.active { color: var(--azul); border-bottom: 2px solid var(--azul); }
+main { max-width: 860px; margin: 1.5rem auto; padding: 0 1rem; }
+section { background: var(--papel); border: 1px solid var(--borda); border-radius: 8px; padding: 1.5rem; }
+h1 { margin: 0 0 1rem; font-size: 1.5rem; }
+h2 { font-size: 1.1rem; margin-top: 1.75rem; }
+.cabecalho { display: flex; justify-content: space-between; align-items: center; }
+.resumo { font-size: 1.1rem; }
+.numero { font-size: 2.25rem; font-weight: 700; color: var(--azul); }
+.acoes { display: flex; gap: .75rem; margin-top: 1.25rem; flex-wrap: wrap; }
+.btn { display: inline-block; padding: .55rem 1rem; border: 1px solid var(--borda);
+  border-radius: 6px; background: var(--papel); color: var(--texto); font: inherit;
+  text-decoration: none; cursor: pointer; }
+.btn.primario { background: var(--azul); border-color: var(--azul); color: #fff; }
+.btn.perigo { color: var(--vermelho); border-color: var(--vermelho); }
+.btn:disabled { opacity: .6; cursor: wait; }
+.btn:focus-visible, a:focus-visible, input:focus-visible, button:focus-visible {
+  outline: 3px solid #8ab4f8; outline-offset: 2px; }
+form { display: grid; gap: 1rem; max-width: 460px; }
+label { display: grid; gap: .3rem; font-weight: 600; }
+input { padding: .55rem .7rem; border: 1px solid var(--borda); border-radius: 6px; font: inherit; }
+.busca { width: 100%; margin-bottom: 1rem; }
+.erro { background: var(--fundo-erro); color: var(--vermelho); padding: .75rem 1rem;
+  border-radius: 6px; }
+.erro p { margin: 0; } .erro ul { margin: .4rem 0 0; padding-left: 1.2rem; }
+.vazio { color: var(--suave); }
+.rolagem { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; }
+th, td { text-align: left; padding: .6rem .5rem; border-bottom: 1px solid var(--borda); }
+.acoes-linha { display: flex; gap: .9rem; white-space: nowrap; }
+.acoes-linha a, .link { color: var(--azul); background: none; border: 0; padding: 0;
+  font: inherit; cursor: pointer; text-decoration: underline; }
+.link.perigo { color: var(--vermelho); }
+.lista { list-style: none; padding: 0; margin: 0; }
+.lista li { display: flex; justify-content: space-between; gap: 1rem; padding: .5rem 0;
+  border-bottom: 1px solid var(--borda); }
+.lista span { color: var(--suave); }
+dl { display: grid; grid-template-columns: 8rem 1fr; gap: .5rem 1rem; }
+dt { color: var(--suave); } dd { margin: 0; }
+
+select, textarea { padding: .55rem .7rem; border: 1px solid var(--borda); border-radius: 6px;
+  font: inherit; background: var(--papel); width: 100%; }
+select:focus-visible, textarea:focus-visible { outline: 3px solid #8ab4f8; outline-offset: 2px; }
+.filtros { display: flex; gap: .75rem; margin-bottom: 1rem; flex-wrap: wrap; }
+.filtros select { width: auto; min-width: 11rem; }
+.paginacao { display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  margin-top: 1rem; flex-wrap: wrap; color: var(--suave); }
+.selo { display: inline-block; padding: .1rem .6rem; border-radius: 999px; font-size: .85rem;
+  background: #e8edf3; color: var(--texto); white-space: nowrap; }
+.selo.ABERTO { background: #dbe8fb; color: #174a99; }
+.selo.EM_ATENDIMENTO { background: #fdf1c9; color: #7a5a00; }
+.selo.AGUARDANDO_CLIENTE { background: #f1e1f7; color: #6b2a80; }
+.selo.FECHADO { background: #dff3e4; color: #1b6b36; }
+.painel { display: grid; grid-template-columns: 1fr auto 1fr auto; gap: .75rem; align-items: end;
+  margin: 1.25rem 0; padding: 1rem; background: var(--fundo); border-radius: 6px; }
+@media (max-width: 700px) { .painel { grid-template-columns: 1fr; } }
+.comentarios li { display: block; }
+.comentarios li p { margin: .25rem 0 0; }
+.comentarios li span { display: inline; font-size: .85rem; }

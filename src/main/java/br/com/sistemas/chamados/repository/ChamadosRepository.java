@@ -18,7 +18,7 @@ boolean existsByClienteId(Long clienteId);
     Page<Chamados> findByClienteId(Long clienteId, Pageable pageable);
 
     @Query("""
-        select c from Chamado c
+        select c from Chamados c
         where (:status is null or c.status = :status)
           and (:prioridade is null or c.prioridade = :prioridade)
           and (:clienteId is null or c.cliente.id = :clienteId)
